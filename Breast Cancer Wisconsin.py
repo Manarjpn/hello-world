@@ -25,7 +25,7 @@ from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
 print(cm)
 
-#
+#K-Fold交差検証で精度を計算する
 from sklearn.model_selection import cross_val_score
 accuracies = cross_val_score(estimator = classifier, X = X_train, y = y_train, cv = 10)
 print("Accuracy : {:.2f}%".format(accuracies.mean()*100))
