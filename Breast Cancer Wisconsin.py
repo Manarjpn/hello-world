@@ -1,12 +1,31 @@
 #ソース：https://archive.ics.uci.edu/dataset/15/breast+cancer+wisconsin+original
 
 #ライブラリをインポートする
+!pip install ucimlrepo
 import pandas as pd
+import numpy as np
 
 #データセットをインポートする
-dataset = pd.read_csv('breast_cancer.csv')
-X = dataset.iloc[:, 1:-1].values
-y = dataset.iloc[:, -1].values
+from ucimlrepo import fetch_ucirepo 
+
+# fetch dataset 
+breast_cancer_wisconsin_original = fetch_ucirepo(id=15) 
+  
+# data (as pandas dataframes) 
+X = breast_cancer_wisconsin_original.data.features 
+y = breast_cancer_wisconsin_original.data.targets 
+
+# metadata 
+print(breast_cancer_wisconsin_original.metadata) 
+
+# variable information 
+print(breast_cancer_wisconsin_original.variables)
+
+#欠損データの処理を行う
+from sklearn.impute import SimpleImputer
+imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+imputer.fit(X)
+X = imputer.transform(X)
 
 #データセットをトレーニングセットとテストセットに分割する
 from sklearn.model_selection import train_test_split
